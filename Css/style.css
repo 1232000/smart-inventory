@@ -12,11 +12,24 @@ img{
 a{
     text-decoration: none;
 }
+.min-vh-page{
+    min-height: calc(100vh - 56px);
+}
 /* COLORS-------------------------------------------------------------------------------- */
 :root{
-    --bg-1: white ;
+    --bg-card: white ;
+    --text-1: white;
+    --text-2: gray;
 }
 :root[data-theme="dark"] {
     --bg-1: rgb(84, 83, 83) ;
+    --text-1: black;
+    --text-2: white;
+}
+.text-white-css , .text-white-css:hover{
+    color: var(--text-1);
+}
+.text-black-css , .text-black-css:hover{
+    color: var(--text-2);
 }
 /* ------------------------------------------------------------------------------- */
