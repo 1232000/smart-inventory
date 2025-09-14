@@ -1,7 +1,7 @@
 1. Any color in style.css => write it in :root{} because of the dark mode
 
 //===============
-1. Design
+1. Design  ✅
 2. Add
 3. Display
 4. Delete
