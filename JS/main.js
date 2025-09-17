@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   form.appendChild(hiddenIndex);
 
   // Bootstrap toast
-  function showToast(msg, type = "success") {
+  function showToast(msg, type = "success", icon = "fa-circle-check") {
     const toastArea = document.getElementById("toastBox");
     const toastEl = document.createElement("div");
     toastEl.className = `toast text-bg-${type} border-0 align-items-center`;
@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     toastEl.innerHTML = `
       <div class="d-flex">
-        <div class="toast-body">${msg}</div>
+        <div class="toast-body">
+          <i class="fa-solid ${icon} me-2"></i> ${msg}
+        </div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
     `;
@@ -110,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         category: categoryInput.value,
         description: descInput.value,
       });
-      showToast("✅ Product added", "success");
+      showToast("Product added", "success", "fa-circle-check");
     } else {
       items[idx] = {
         name: nameInput.value,
@@ -119,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         description: descInput.value,
       };
       hiddenIndex.value = "";
-      showToast("✏️ Product updated", "warning");
+      showToast("Product updated", "warning", "fa-pen-to-square");
     }
 
     save();
@@ -132,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     items.splice(i, 1);
     save();
     drawList();
-    showToast("🗑️ Deleted", "danger");
+    showToast("Product deleted", "danger", "fa-trash");
   }
 
   // Edit
