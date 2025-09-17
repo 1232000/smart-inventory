@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Inventory</title>
+
     <link rel="shortcut icon" href="./images/boxes-stacked-solid-full.svg" type="image/x-icon" 
     />
     <link rel="stylesheet" href="./Css/bootstrap.min.css" />
@@ -22,7 +23,7 @@
             <i class="fa-solid fa-upload"></i>
             Import
           </button>
-          <button class="btn btn-outline-light">
+          <button class="btn btn-outline-light" id="toggleBtn">
             <i class="fa-solid fa-moon"></i>
           </button>
         </div>
@@ -122,7 +123,7 @@
         <div class="card-body">
           <div class="d-flex gap-4">
             <div class="input-group mb-3">
-              <span for="search" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <span for="search" class="input-group-text" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></span>
               <input id="search" name="search" type="search" class="form-control"  placeholder="Search Products...">
             </div>
 

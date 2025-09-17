@@ -2,11 +2,11 @@
 
 //===============
 1. Design  ✅
-2. Add
-3. Display
-4. Delete
-5. Update
-6. Dark mode
+2. Add ✅
+3. Display ✅
+4. Delete ✅
+5. Update ✅
+6. Dark mode ✅
 7. Import
-8. Categories
-9. Search
+8. Categories ✅
+9. Search ✅
