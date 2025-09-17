@@ -1,155 +1,197 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Elements
-  const form = document.querySelector("form.card");
-  const nameInput = document.getElementById("name");
-  const priceInput = document.getElementById("price");
-  const categoryInput = document.getElementById("category");
-  const descInput = document.getElementById("description");
-  const listContainer = document.querySelector(".all-cards");
-  const counterBtn = document.querySelector(".card-header button");
-  const searchBox = document.getElementById("search");
-  const filterSelect = document.getElementById("categories");
+// ================= Select Elements =================
+const form = document.querySelector("form");
+const nameInput = document.querySelector("#name");
+const priceInput = document.querySelector("#price");
+const categoryInput = document.querySelector("#category");
+const descInput = document.querySelector("#description");
+const hiddenIndex = document.createElement("input");
+hiddenIndex.type = "hidden";
+form.appendChild(hiddenIndex);
+const submitBtn = form.querySelector("button[type='submit']");
+const allCards = document.querySelector(".all-cards");
+const searchInput = document.querySelector("#search");
+const filterCategory = document.querySelector("#categories");
+const productCountBtn = document.querySelector(".card-header button");
+const toastBox = document.querySelector("#toastBox");
 
-  // hidden input for edit
-  const hiddenIndex = document.createElement("input");
-  hiddenIndex.type = "hidden";
-  hiddenIndex.id = "editIndex";
-  form.appendChild(hiddenIndex);
+// ================= Theme Toggle =================
+const toggleBtn = document.querySelector(".btn-outline-light i.fa-moon, .btn-outline-light i.fa-sun")?.parentElement;
+const themeIcon = toggleBtn?.querySelector("i");
 
-  // Bootstrap toast
-  function showToast(msg, type = "success", icon = "fa-circle-check") {
-    const toastArea = document.getElementById("toastBox");
-    const toastEl = document.createElement("div");
-    toastEl.className = `toast text-bg-${type} border-0 align-items-center`;
-    toastEl.setAttribute("role", "alert");
-    toastEl.setAttribute("aria-live", "assertive");
-    toastEl.setAttribute("aria-atomic", "true");
+let savedTheme = localStorage.getItem("theme") || "light";
+document.documentElement.setAttribute("data-theme", savedTheme);
+if (savedTheme === "dark") {
+  themeIcon.classList.remove("fa-moon");
+  themeIcon.classList.add("fa-sun");
+} else {
+  themeIcon.classList.remove("fa-sun");
+  themeIcon.classList.add("fa-moon");
+}
 
-    toastEl.innerHTML = `
-      <div class="d-flex">
-        <div class="toast-body">
-          <i class="fa-solid ${icon} me-2"></i> ${msg}
+toggleBtn?.addEventListener("click", () => {
+  let currentTheme = document.documentElement.getAttribute("data-theme");
+  let newTheme = currentTheme === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", newTheme);
+  if (newTheme === "dark") {
+    themeIcon.classList.remove("fa-moon");
+    themeIcon.classList.add("fa-sun");
+  } else {
+    themeIcon.classList.remove("fa-sun");
+    themeIcon.classList.add("fa-moon");
+  }
+  localStorage.setItem("theme", newTheme);
+});
+
+// ================= Data Store =================
+let items = JSON.parse(localStorage.getItem("products")) || [];
+
+// ================= Save & Render =================
+function save() {
+  localStorage.setItem("products", JSON.stringify(items));
+}
+
+function drawList() {
+  allCards.innerHTML = "";
+  items.forEach((product, i) => {
+    const card = document.createElement("div");
+    card.className = "card-info col-lg-4 col-md-6 col-12";
+    card.innerHTML = `
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between fw-medium">
+            <div class="mb-1">${product.name}</div>
+            <div class="bg-primary text-white-css rounded-5 px-3">${product.category}</div>
+          </div>
+          <div class="text-success fw-bold fs-2 mb-2">$${product.price.toFixed(2)}</div>
+          <div class="fs-6">${product.desc}</div>
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        <div class="d-flex p-3 gap-3">
+          <button class="btn btn-light btn-outline-primary w-50 mt-3" onclick="loadForEdit(${i})">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Edit
+          </button>
+          <button class="btn btn-light btn-outline-danger w-50 mt-3" onclick="deleteItem(${i})">
+            <i class="fa-solid fa-trash"></i>
+            Delete
+          </button>
+        </div>
       </div>
     `;
+    allCards.appendChild(card);
+  });
+  productCountBtn.textContent = `${items.length} Product${items.length !== 1 ? "s" : ""}`;
+}
 
-    toastArea.appendChild(toastEl);
+// ================= Add / Edit Product =================
+form.addEventListener("submit", e => {
+  e.preventDefault();
 
-    const bsToast = new bootstrap.Toast(toastEl, { delay: 2500 });
-    bsToast.show();
+  let name = nameInput.value.trim();
+  let price = parseFloat(priceInput.value);
+  let category = categoryInput.value;
+  let desc = descInput.value.trim();
 
-    toastEl.addEventListener("hidden.bs.toast", () => toastEl.remove());
+  if (!name || isNaN(price) || !category || !desc) {
+    showToast("Please fill all fields correctly", "danger");
+    return;
   }
 
-  // Local storage
-  let items = JSON.parse(localStorage.getItem("products")) || [];
+  let editIndex = hiddenIndex.value;
 
-  const save = () => localStorage.setItem("products", JSON.stringify(items));
+  if (editIndex === "") {
+    // Add new product
+    items.push({ name, price, category, desc });
+    showToast(`<i class="fa-solid fa-circle-check"></i> Product Added`, "success");
+  } else {
+    // Update existing product
+    items[editIndex] = { name, price, category, desc };
+    hiddenIndex.value = "";
+    submitBtn.textContent = "Add Product"; // Reset button text
+    showToast(`<i class="fa-solid fa-pen-to-square"></i> Product Updated`, "info");
+  }
 
-  function drawList() {
-    const term = searchBox.value.toLowerCase();
-    const chosenCategory = filterSelect.value;
+  save();
+  drawList();
+  form.reset();
+});
 
-    const visible = items.filter(it => {
-      const okName = it.name.toLowerCase().includes(term);
-      const okCategory =
-        chosenCategory === "" || chosenCategory === "All categories" || it.category === chosenCategory;
-      return okName && okCategory;
-    });
+// ================= Load for Edit =================
+window.loadForEdit = function (i) {
+  const product = items[i];
+  nameInput.value = product.name;
+  priceInput.value = product.price;
+  categoryInput.value = product.category;
+  descInput.value = product.desc;
+  hiddenIndex.value = i;
+  submitBtn.textContent = "Edit Product"; // Change button text
+};
 
-    listContainer.innerHTML = "";
+// ================= Delete Product =================
+window.deleteItem = function (i) {
+  items.splice(i, 1);
+  save();
+  drawList();
+  showToast(`<i class="fa-solid fa-trash"></i> Product Deleted`, "danger");
+};
 
-    visible.forEach((prod, i) => {
-      const card = document.createElement("div");
-      card.className = "card-info col-lg-4 col-md-6 col-12";
+// ================= Search & Filter =================
+searchInput.addEventListener("input", applyFilters);
+filterCategory.addEventListener("change", applyFilters);
 
-      card.innerHTML = `
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <div class="d-flex justify-content-between fw-medium">
-              <span>${prod.name}</span>
-              <span class="badge bg-primary">${prod.category}</span>
-            </div>
-            <div class="text-success fw-bold fs-5">$${prod.price}</div>
-            <p>${prod.description}</p>
+function applyFilters() {
+  let keyword = searchInput.value.toLowerCase();
+  let categoryFilter = filterCategory.value;
+
+  const filtered = items.filter(p =>
+    (p.name.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword)) &&
+    (categoryFilter === "All categories" || p.category === categoryFilter)
+  );
+
+  allCards.innerHTML = "";
+  filtered.forEach((product, i) => {
+    const card = document.createElement("div");
+    card.className = "card-info col-lg-4 col-md-6 col-12";
+    card.innerHTML = `
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between fw-medium">
+            <div class="mb-1">${product.name}</div>
+            <div class="bg-primary text-white-css rounded-5 px-3">${product.category}</div>
           </div>
-          <div class="d-flex p-3 gap-2">
-            <button class="btn btn-outline-warning w-50 edit-btn" data-id="${i}">
-              <i class="fa-solid fa-pen"></i> Edit
-            </button>
-            <button class="btn btn-outline-danger w-50 delete-btn" data-id="${i}">
-              <i class="fa-solid fa-trash"></i> Delete
-            </button>
-          </div>
+          <div class="text-success fw-bold fs-2 mb-2">$${product.price.toFixed(2)}</div>
+          <div class="fs-6">${product.desc}</div>
         </div>
-      `;
-
-      listContainer.appendChild(card);
-    });
-
-    counterBtn.textContent = `${visible.length} Products`;
-
-    // attach handlers
-    document.querySelectorAll(".delete-btn").forEach(btn =>
-      btn.addEventListener("click", e => removeItem(e.target.closest("button").dataset.id))
-    );
-
-    document.querySelectorAll(".edit-btn").forEach(btn =>
-      btn.addEventListener("click", e => loadForEdit(e.target.closest("button").dataset.id))
-    );
-  }
-
-  // Submit form
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const idx = hiddenIndex.value;
-
-    if (idx === "") {
-      items.push({
-        name: nameInput.value,
-        price: priceInput.value,
-        category: categoryInput.value,
-        description: descInput.value,
-      });
-      showToast("Product added", "success", "fa-circle-check");
-    } else {
-      items[idx] = {
-        name: nameInput.value,
-        price: priceInput.value,
-        category: categoryInput.value,
-        description: descInput.value,
-      };
-      hiddenIndex.value = "";
-      showToast("Product updated", "warning", "fa-pen-to-square");
-    }
-
-    save();
-    drawList();
-    form.reset();
+        <div class="d-flex p-3 gap-3">
+          <button class="btn btn-light btn-outline-primary w-50 mt-3" onclick="loadForEdit(${i})">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Edit
+          </button>
+          <button class="btn btn-light btn-outline-danger w-50 mt-3" onclick="deleteItem(${i})">
+            <i class="fa-solid fa-trash"></i>
+            Delete
+          </button>
+        </div>
+      </div>
+    `;
+    allCards.appendChild(card);
   });
 
-  // Delete
-  function removeItem(i) {
-    items.splice(i, 1);
-    save();
-    drawList();
-    showToast("Product deleted", "danger", "fa-trash");
-  }
+  productCountBtn.textContent = `${filtered.length} Product${filtered.length !== 1 ? "s" : ""}`;
+}
 
-  // Edit
-  function loadForEdit(i) {
-    const item = items[i];
-    nameInput.value = item.name;
-    priceInput.value = item.price;
-    categoryInput.value = item.category;
-    descInput.value = item.description;
-    hiddenIndex.value = i;
-  }
+// ================= Toast Notifications =================
+function showToast(message, type) {
+  let toast = document.createElement("div");
+  toast.className = `toast align-items-center text-bg-${type} border-0 show mb-2`;
+  toast.innerHTML = `
+    <div class="d-flex">
+      <div class="toast-body">${message}</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  `;
+  toastBox.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
 
-  // Filters
-  searchBox.addEventListener("input", drawList);
-  filterSelect.addEventListener("change", drawList);
-
-  drawList();
-});
+// ================= Init =================
+drawList();
