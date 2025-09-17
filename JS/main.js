@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const counterBtn = document.querySelector(".card-header button");
   const searchBox = document.getElementById("search");
   const filterSelect = document.getElementById("categories");
-
+  const editBtnm = document.getElementById('editBtnm');
+  const addBtnm = document.getElementById('addBtnm');
   // hidden input for edit
   const hiddenIndex = document.createElement("input");
   hiddenIndex.type = "hidden";
@@ -102,6 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Submit form
   form.addEventListener("submit", e => {
+    editBtnm.classList.replace('d-block','d-none');
+    addBtnm.classList.replace('d-none','d-block');
     e.preventDefault();
     const idx = hiddenIndex.value;
 
@@ -145,6 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
     categoryInput.value = item.category;
     descInput.value = item.description;
     hiddenIndex.value = i;
+    editBtnm.classList.replace('d-none','d-block');
+    addBtnm.classList.replace('d-block','d-none');
   }
 
   // Filters
