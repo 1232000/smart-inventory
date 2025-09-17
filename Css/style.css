@@ -1,35 +1,63 @@
 /* GENERAL------------------------------------------------------------------------------- */
 *, *::after, *::before {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-body{
-    margin: 0;
+body {
+  margin: 0;
 }
-img{
-    display: block;
-    width: 100%;
+img {
+  display: block;
+  width: 100%;
 }
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
 }
-.min-vh-page{
-    min-height: calc(100vh - 56px);
+.min-vh-page {
+  min-height: calc(100vh - 56px);
 }
+
 /* COLORS-------------------------------------------------------------------------------- */
-:root{
-    --bg-card: white ;
-    --text-1: white;
-    --text-2: gray;
+:root {
+  --bg-card: white;
+  --text-1: white;
+  --text-2: gray;
 }
+
 :root[data-theme="dark"] {
-    --bg-1: rgb(84, 83, 83) ;
-    --text-1: black;
-    --text-2: white;
+  --bg-card: rgb(26, 24, 24);
+  --bg-1: rgb(84, 83, 83);
+  --text-1: black;
+  --text-2: white;
 }
-.text-white-css , .text-white-css:hover{
-    color: var(--text-1);
+
+/* Dark mode overrides */
+:root[data-theme="dark"] .container-fluid,
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] .form-select,
+:root[data-theme="dark"] textarea {
+  background-color: rgb(37, 36, 36) !important;
+  color: white;
+  border: 1px solid rgb(84, 83, 83);
 }
-.text-black-css , .text-black-css:hover{
-    color: var(--text-2);
+
+:root[data-theme="dark"] .card-header,
+:root[data-theme="dark"] span {
+  background-color: rgb(84, 83, 83);
+  border: none;
+}
+
+:root[data-theme="dark"] button {
+  background-color: rgb(37, 36, 36) !important;
+}
+
+.text-white-css,
+.text-white-css:hover {
+  color: var(--text-1);
+}
+
+.text-black-css,
+.text-black-css:hover {
+  color: var(--text-2);
 }
 /* ------------------------------------------------------------------------------- */

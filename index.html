@@ -10,26 +10,23 @@
   <link rel="stylesheet" href="./Css/all.min.css" />
   <link rel="stylesheet" href="./Css/style.css" />
 </head>
-<!--BODY------------------------------------------------------------------------------------------------->
 
 <body>
-  <!--Navbar------------------------------------------------------------------------------------------------->
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container text-white-css">
       <i class="fa-solid fa-boxes-stacked"></i>
       <a class="navbar-brand me-auto ps-2 fw-bold text-white-css" href="#">Smart Inventory</a>
       <div class="d-flex gap-3 ms-auto">
-        <button class="btn btn-outline-light">
-          <i class="fa-solid fa-upload"></i>
-          Import
-        </button>
+        <!-- Removed Import Button -->
         <button class="btn btn-outline-light">
           <i class="fa-solid fa-moon"></i>
         </button>
       </div>
     </div>
   </nav>
-  <!--Main------------------------------------------------------------------------------------------------->
+
+  <!-- Main -->
   <div class="min-vh-page container-fluid pt-3">
     <main class="row">
       <!-- Form -->
@@ -94,12 +91,9 @@
             </div>
 
             <button class="btn btn-primary w-100 mt-3">
-              <i class="fa-solid fa-plus"></i> Add Product</div>
+              <i class="fa-solid fa-plus"></i>
+              Add Product
             </button>
-<!--             <button type="submit" class="btn btn-primary w-100 mt-3">
-              <div id="editBtnm" class="d-none"><i class="fa-solid fa-pen-to-square"></i> Edit Product</div>
-              <div id="addBtnm" class="d-block"><i class="fa-solid fa-plus"></i> Add Product</div>
-            </button> -->
           </div>
         </form>
       </section>
@@ -114,12 +108,12 @@
             </button>
           </div>
 
-        <div class="card-body">
-          <div class="d-flex gap-4">
-            <div class="input-group mb-3">
-              <span for="search" class="input-group-text" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></span>
-              <input id="search" name="search" type="search" class="form-control"  placeholder="Search Products...">
-            </div>
+          <div class="card-body">
+            <div class="d-flex gap-4">
+              <div class="input-group mb-3">
+                <span for="search" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input id="search" name="search" type="search" class="form-control" placeholder="Search Products...">
+              </div>
 
               <div class="input-group mb-3">
                 <select class="form-select" id="categories" name="categories">
