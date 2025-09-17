@@ -22,19 +22,6 @@ a{
     --text-2: gray;
 }
 :root[data-theme="dark"] {
-     .container-fluid , .card , input ,.form-select , textarea {
-        background-color:rgb(37, 36, 36) !important ;
-        color:white ;
-        border: 1px solid rgb(84, 83, 83);
-    }
-    .card-header ,span{
-        background-color: rgb(84, 83, 83);
-        border: none;
-    }
-    button{
-        background-color:rgb(37, 36, 36) !important ;
-    }
-    --bg-card: rgb(26, 24, 24) !important ;
     --bg-1: rgb(84, 83, 83) ;
     --text-1: black;
     --text-2: white;
