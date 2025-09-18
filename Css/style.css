@@ -30,7 +30,7 @@ a {
   --text-2: white;
 }
 
-/* Dark mode overrides */
+/* Dark mode overrides-------------------------------------------------------------------------------- */
 :root[data-theme="dark"] .container-fluid,
 :root[data-theme="dark"] .card,
 :root[data-theme="dark"] input,
@@ -60,4 +60,3 @@ a {
 .text-black-css:hover {
   color: var(--text-2);
 }
-/* ------------------------------------------------------------------------------- */
