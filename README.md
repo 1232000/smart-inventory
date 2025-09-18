@@ -7,6 +7,5 @@
 4. Delete ✅
 5. Update ✅
 6. Dark mode ✅
-7. Import
 8. Categories ✅
 9. Search ✅
