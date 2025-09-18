@@ -233,3 +233,30 @@ function showToast(message, type) {
 
 // ================= Init =================
 drawList();
+// ================keyboard Shortcuts =================
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        //addItem();
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        //updateItem();
+    }
+
+    if (event.key === "Delete") {
+        event.preventDefault();
+        deleteItem();
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "y") {
+        event.preventDefault();
+        // cancelAdd(); 
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "f") {
+        event.preventDefault();
+        searchInput();
+    }
+});
