@@ -1,67 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smart Inventory</title>
   <link rel="shortcut icon" href="./images/boxes-stacked-solid-full.svg" type="image/x-icon" />
   <link rel="stylesheet" href="./Css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./Css/all.min.css" />
   <link rel="stylesheet" href="./Css/style.css" />
-  <script src="https://kit.fontawesome.com/4f255da4db.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-light">
-  <!-- ================= NAVIGATION BAR ================= -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <a class="navbar-brand" href="#">Smart Inventory</a>
-    <div class="ms-auto">
-      <button id="toggleDarkMode" class="btn btn-outline-light">Dark Mode</button>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-primary">
+    <div class="container text-white-css">
+      <i class="fa-solid fa-boxes-stacked"></i>
+      <a class="navbar-brand me-auto ps-2 fw-bold text-white-css" href="#">Smart Inventory</a>
+      <div class="d-flex gap-3 ms-auto">
+        <button id="themeToggle" class="btn btn-outline-light">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
     </div>
   </nav>
 
-  <!-- ================= MAIN CONTAINER ================= -->
-  <div class="container my-4">
-    <h2 id="formTitle" class="text-center mb-4">Add Product</h2>
+  <!-- Main -->
+  <div class="min-vh-page container-fluid pt-3">
+    <main class="row">
+      <!-- Form -->
+      <section class="col-lg-4 col-12 mb-4">
+        <form id="productForm" class="card">
+          <div class="card-header flex text-white-css bg-primary px-md-3 py-md- rounded-top-2">
+            <h4 id="formTitle"><i class="fa-solid fa-circle-plus"></i> Add New Product</h4>
+          </div>
 
-    <!-- ================= PRODUCT FORM ================= -->
-    <form id="productForm" class="row g-3">
-      <div class="col-md-4">
-        <input type="text" id="productName" class="form-control" placeholder="Product Name" required>
-      </div>
-      <div class="col-md-3">
-        <input type="number" id="productQuantity" class="form-control" placeholder="Quantity" required>
-      </div>
-      <div class="col-md-3">
-        <input type="number" id="productPrice" class="form-control" placeholder="Price" required>
-      </div>
-      <div class="col-md-2 d-grid">
-        <button type="submit" id="submitBtn" class="btn btn-primary">Add</button>
-      </div>
-    </form>
+          <div class="card-body">
+            <div>
+              <div class="text-black-css pb-1">
+                <i class="fa-solid fa-tag"></i>
+                <label for="name">Product Name *</label>
+              </div>
+              <div class="input-group mb-3">
+                <input id="name" name="name" type="text" class="form-control">
+              </div>
+            </div>
 
-    <!-- ================= PRODUCT LIST SECTION ================= -->
-    <div class="mt-5">
-      <h3 class="mb-3">Product List</h3>
-      <table class="table table-bordered text-center align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>#</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="productList">
-          <!-- Dynamic content will be injected here from JavaScript -->
-        </tbody>
-      </table>
-    </div>
+            <div>
+              <div class="text-black-css pb-1">
+                <i class="fa-solid fa-dollar-sign"></i>
+                <label for="price">Price *</label>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">$</span>
+                <input id="price" name="price" type="number" class="form-control">
+              </div>
+            </div>
+
+            <div>
+              <div class="text-black-css pb-1">
+                <i class="fa-solid fa-list"></i>
+                <label for="category">Category *</label>
+              </div>
+              <div class="input-group mb-3">
+                <select class="form-select" id="category" name="category">
+                  <option selected>Select a category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="closing">Closing</option>
+                  <option value="books">Books</option>
+                  <option value="home">Home & Garden</option>
+                  <option value="sports">Sports</option>
+                  <option value="food">Food & Beverages</option>
+                  <option value="health">Health & Beauty</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <div class="text-black-css pb-1">
+                <i class="fa-solid fa-align-left"></i>
+                <label for="description">Description *</label>
+              </div>
+              <div class="form-floating">
+                <textarea class="form-control p-2" id="description" style="height: 100px"></textarea>
+              </div>
+            </div>
+
+            <button id="submitBtn" type="submit" class="btn btn-primary w-100 mt-3">
+              <i class="fa-solid fa-plus"></i> Add Product
+            </button>
+
+            <!-- Cancel button -->
+            <button id="cancelBtn" type="button" class="btn btn-secondary w-100 mt-2 d-none">
+              <i class="fa-solid fa-xmark"></i> Cancel Edit
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Products -->
+      <section class="col-lg-8 col-12 mb-4">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-content-center px-md-3 rounded-top-2">
+            <h4><i class="fa-solid fa-boxes-stacked"></i> Products</h4>
+            <button id="productCount" class="btn btn-primary fw-medium">
+              0 Products
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div class="d-flex gap-4">
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input id="search" name="search" type="search" class="form-control" placeholder="Search Products...">
+              </div>
+
+              <div class="input-group mb-3">
+                <select class="form-select" id="categories" name="categories">
+                  <option selected>All categories</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="closing">Closing</option>
+                  <option value="books">Books</option>
+                  <option value="home">Home & Garden</option>
+                  <option value="sports">Sports</option>
+                  <option value="food">Food & Beverages</option>
+                  <option value="health">Health & Beauty</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="productsContainer" class="all-cards row gy-4">
+              <!-- Products will be added here -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <!-- ================= JS FILES ================= -->
-  <script src="./Js/main.js"></script>
+  <!-- Scripts -->
+  <script src="./bootstrap-5.3.5-dist/js/bootstrap.bundle.min.js"></script>
+  <div class="toast-container position-fixed top-0 end-0 p-3" id="toastBox"></div>
+  <script src="./JS/main.js" defer></script>
 </body>
 </html>
