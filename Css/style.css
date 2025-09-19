@@ -38,12 +38,12 @@ a {
 :root[data-theme="dark"] textarea {
   background-color: rgb(37, 36, 36) !important;
   color: white;
-  border: 1px solid rgb(84, 83, 83);
+  border: 1px solid rgb(105, 104, 104);
 }
 
 :root[data-theme="dark"] .card-header,
 :root[data-theme="dark"] span {
-  background-color: rgb(84, 83, 83);
+  background-color: rgb(107, 107, 107);
   border: none;
 }
 
